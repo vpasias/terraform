@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ] ; then echo "Please run as root" ; exit ; fi
 1_virtualization_installation () {
 if [ -f /etc/debian_version ]; then
 apt-get update && apt-get -y upgrade
-apt-get -y install wget unzip
+apt-get -y install wget unzip jq
 apt-get -y install qemu-kvm libvirt-dev virtinst virt-viewer libguestfs-tools virt-manager uuid-runtime curl linux-source libosinfo-bin
 virsh net-start default
 virsh net-autostart default
