@@ -1,3 +1,13 @@
+# variables that can be overriden
+variable "hostname" { default = "node" }
+variable "domain" { default = "example.com" }
+variable "ip_type" { default = "static" } # dhcp is other valid type
+variable "memoryMB" { default = 1024*1 }
+variable "cpu" { default = 1 }
+variable "prefixIP" { default = "192.168.122" }
+variable "octetIP" { default = "31" }
+variable "nodes" { default = "4" }
+
 terraform {
  required_version = ">= 0.13"
   required_providers {
@@ -12,33 +22,41 @@ provider "libvirt" {
   uri = "qemu:///system"
 }
 
-resource "libvirt_pool" "imagespool" {
-  name = "imagespool"
-  type = "dir"
-  path = "/tmp/libvirt-pool-imagespool"
-}
-
+# fetch the latest ubuntu release image from their mirrors
 resource "libvirt_volume" "os_image" {
-  name   = "os_image"
-  source = "http://get.goffinet.org/kvm/centos8.qcow2"
-  pool   = libvirt_pool.imagespool.name
+  name = "os_image"
+  pool = "default"
+  # using newest ubuntu focal 20.04
+  #source = "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
+  source = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
   format = "qcow2"
 }
+
+# Use CloudInit ISO to add ssh-key to the instance
+resource "libvirt_cloudinit_disk" "commoninit" {
+          name = "${var.hostname}-commoninit.iso"
+          pool = "default"
+          user_data = data.template_file.user_data.rendered
+          network_config = data.template_file.network_config.rendered
+}
+
 
 resource "libvirt_volume" "volume" {
   name           = "volume-${count.index}"
   base_volume_id = libvirt_volume.os_image.id
   count          = 4
-  pool = libvirt_pool.imagespool.name
+  pool = "default"
 }
 
-resource "libvirt_domain" "domain" {
-  name = "domain-${count.index}"
-  memory = "512"
-  vcpu   = 1
+resource "libvirt_domain" "node" {
+  name = "node-${count.index}"
+  memory = "8192"
+  vcpu   = 2
   disk {
     volume_id = element(libvirt_volume.volume.*.id, count.index)
   }
+ 
+  cloudinit = libvirt_cloudinit_disk.commoninit.id
 
   network_interface {
     network_name   = "default"
@@ -60,5 +78,5 @@ resource "libvirt_domain" "domain" {
 }
 
 output "ips" {
-  value = libvirt_domain.domain.*.network_interface.0.addresses
+  value = libvirt_domain.node.*.network_interface.0.addresses
 }
