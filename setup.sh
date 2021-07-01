@@ -46,7 +46,6 @@ apt-get update && apt-get -y install python3-pip
 elif [ -f /etc/redhat-release ]; then
 yum -y install python3-pip
 fi
-pip3 install docker-compose
 }
 
 1_virtualization_installation
