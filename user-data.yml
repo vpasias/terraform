@@ -8,9 +8,9 @@ chpasswd:
 ssh_pwauth: no
 
 users:
-  - name: iason
+  - name: vpasias
     ssh_import_id:
-      - gh:ebal
+      - gh:vpasias
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
 
