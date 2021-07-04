@@ -10,7 +10,7 @@ ssh_pwauth: no
 users:
   - name: iason
     ssh_authorized_keys:
-      - ssh-rsa AAAAXX #Chageme
+      - AAAAXX #Changeme
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
 
