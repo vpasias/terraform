@@ -8,9 +8,9 @@ chpasswd:
 ssh_pwauth: no
 
 users:
-  - name: vpasias
-    ssh_import_id:
-      - gh:vpasias
+  - name: iason
+    ssh_authorized_keys:
+      - ssh-rsa AAAAXX #Chageme
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
 
@@ -18,7 +18,7 @@ write_files:
   - path: /etc/ssh/sshd_config
     content: |
         AcceptEnv LANG LC_*
-        AllowUsers ebal
+        AllowUsers iason
         ChallengeResponseAuthentication no
         Compression NO
         MaxSessions 3
