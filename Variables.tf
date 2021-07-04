@@ -1,6 +1,6 @@
 variable "domain" {
   description = "The domain/host name of the zone"
-  default     = "terraforming_2004"
+  default     = "Node1"
 }
 
 variable "ssh_port" {
@@ -14,7 +14,7 @@ variable "IP_addr" {
 }
 
 variable "vol_size" {
-  description = "The mac & iP address for this VM"
+  description = "The disk size for this VM"
   # 80G
   default = 80 * 1024 * 1024 * 1024
 }
