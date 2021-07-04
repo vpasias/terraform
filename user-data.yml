@@ -1,6 +1,10 @@
 #cloud-config
 
-disable_root: true
+disable_root: false
+chpasswd:
+  list: |
+       root:gprm8350
+  expire: False
 ssh_pwauth: no
 
 users:
