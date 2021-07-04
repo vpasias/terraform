@@ -1,5 +1,5 @@
 resource "libvirt_domain" "domain-ubuntu" {
-  name = "ubuntu-terraform"
+  name = "node1"
 
   memory = "8192"
   vcpu   = 2
