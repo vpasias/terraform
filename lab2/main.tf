@@ -64,6 +64,7 @@ resource "libvirt_domain" "domain" {
   vcpu       = var.cpu
   qemu_agent = true
   autostart  = true
+  cpu = { mode = "host-passthrough" }
 
   disk {
     volume_id = element(libvirt_volume.volume.*.id, count.index)
