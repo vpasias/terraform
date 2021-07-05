@@ -16,8 +16,7 @@ variable "hostname" { default = "node" }
 variable "memoryMB" { default = 1024 * 8 }
 variable "cpu" { default = 2 }
 variable "serverCount" { default = 3 }
-variable "network" { default = "kvmnet" }
-variable "bridge" { default = "bridge0" }
+variable "network" { default = "mnet" }
 
 resource "libvirt_volume" "os_image" {
   name   = "os_image"
@@ -77,6 +76,18 @@ resource "libvirt_domain" "domain" {
     addresses      = ["192.168.125.${count.index + 10}"]
     mac            = "52:54:00:b2:2f:${count.index + 10}"
     wait_for_lease = true
+  }
+  
+  console {
+    target_type = "serial"
+    type        = "pty"
+    target_port = "0"
+  }
+  
+  console {
+    target_type = "virtio"
+    type        = "pty"
+    target_port = "1"
   }
 
   depends_on = [
