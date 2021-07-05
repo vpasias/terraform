@@ -48,13 +48,14 @@ data "template_file" "user_data" {
 
 resource "libvirt_network" "network" {
   name      = var.network
-  mode      = "bridge"
-  autostart = true
+  domain    = "libvirt.local"
+  addresses = ["192.168.125.0/24"]
   dhcp {
     enabled = true
   }
-  addresses = ["192.168.125.0/24"]
-  bridge    = var.bridge
+  dns {
+    enabled = true
+  }
 }
 
 resource "libvirt_domain" "domain" {
@@ -71,8 +72,10 @@ resource "libvirt_domain" "domain" {
   }
 
   network_interface {
+    network_id     = libvirt_network.network.id
     network_name   = var.network
-    bridge         = var.bridge
+    addresses      = ["192.168.125.${count.index + 10}"]
+    mac            = "52:54:00:b2:2f:${count.index + 10}"
     wait_for_lease = true
   }
 
