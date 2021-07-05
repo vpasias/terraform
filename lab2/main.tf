@@ -51,6 +51,7 @@ resource "libvirt_network" "network" {
   name      = var.network
   domain    = "libvirt.local"
   addresses = ["192.168.125.0/24"]
+  autostart = true
   dhcp {
     enabled = true
   }
