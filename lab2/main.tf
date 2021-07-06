@@ -23,6 +23,7 @@ resource "libvirt_volume" "os_image" {
   name   = "os_image"
   pool   = "default"
   source = "http://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20210603.0.x86_64.qcow2"
+  format = "qcow2"
 }
 
 resource "libvirt_volume" "volume" {
