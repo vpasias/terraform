@@ -16,6 +16,7 @@ variable "hostname" { default = "node" }
 variable "memoryMB" { default = 1024 * 8 }
 variable "cpu" { default = 2 }
 variable "serverCount" { default = 3 }
+variable "vol_size" { default = 80 }
 variable "network" { default = "mnet" }
 
 resource "libvirt_volume" "os_image" {
@@ -30,6 +31,7 @@ resource "libvirt_volume" "volume" {
   pool           = "default"
   base_volume_id = libvirt_volume.os_image.id
   format         = "qcow2"
+  size           = var.vol_size
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
