@@ -36,9 +36,10 @@ resource "libvirt_volume" "volume" {
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
-  count     = var.serverCount
-  name      = "${var.hostname}-commoninit-${count.index}.iso"
-  user_data = data.template_file.user_data[count.index].rendered
+  count          = var.serverCount
+  name           = "${var.hostname}-commoninit-${count.index}.iso"
+  user_data      = data.template_file.user_data[count.index].rendered
+  network_config = data.template_file.network_config.rendered
 }
 
 
