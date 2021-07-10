@@ -18,6 +18,7 @@ variable "cpu" { default = 2 }
 variable "serverCount" { default = 3 }
 variable "vol_size" { default = 85899345920 }
 variable "network" { default = "mnet" }
+variable "sshdport" { default = "22" }
 
 resource "libvirt_volume" "os_image" {
   name   = "os_image"
