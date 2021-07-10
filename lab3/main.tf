@@ -16,7 +16,7 @@ variable "hostname" { default = "node" }
 variable "memoryMB" { default = 1024 * 8 }
 variable "cpu" { default = 2 }
 variable "serverCount" { default = 3 }
-variable "vol_size" { default = 80 }
+variable "vol_size" { default = 85899345920 }
 variable "network" { default = "mnet" }
 
 resource "libvirt_volume" "os_image" {
